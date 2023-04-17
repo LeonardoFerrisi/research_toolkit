@@ -153,7 +153,7 @@ def class_loss(true=None, predicted=None, confusion_matrix=None):
 	se = (err * (1 - err) / (n-1)) ** 0.5
 	return err,se
 
-def performance(self, condition=None, type='predictions', labels=None, directory=None):
+def performance(condition=None, type='predictions', labels=None, directory=None):
 		# import SigTools
 		import os
 		import numpy
@@ -196,4 +196,23 @@ def performance(self, condition=None, type='predictions', labels=None, directory
 			print('balanced accuracy of %s = %3.1f%% +/- %3.1f from %d trials' % (type, 100-100*pb, 100*stb, c.sum()))
 
 if __name__ == '__main__':
-	pass
+	from termcolor import colored
+
+	d1 = "C:/neurotech/data-audiostream/TS2022/"
+
+	p = input("Input Subject ID: ")
+
+	while True:
+
+		directory = d1 + os.sep + p
+
+		for d in os.listdir(directory):
+			print(colored("\n\nListing performance for %s\n\n" % d, 'cyan'))
+			subdir = os.path.join(directory, d)
+			performance(directory=subdir)
+
+		print("\n============================\n")
+		
+		p = input("Input Subject ID: ")
+		os.system("cls")
+
