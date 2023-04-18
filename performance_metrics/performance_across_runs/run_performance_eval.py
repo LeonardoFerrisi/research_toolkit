@@ -3,7 +3,7 @@ import os
 import matplotlib.pyplot as plt
 import numpy as np
 
-def graph_results(filename, color='blue'):
+def graph_results(filename, color='blue', axis_fontsize=12, axis_fontweight='bold'):
     script_dir = os.path.dirname(os.path.abspath(__file__))
     data_path = os.path.join(script_dir, filename)
     # read the CSV file
@@ -15,17 +15,18 @@ def graph_results(filename, color='blue'):
 
     # Create a bar plot
     fig, ax = plt.subplots()
+    
     avg_acc.plot(kind='bar', ax=ax)
 
     std_acc = std_acc[avg_acc.index]
 
     ax = avg_acc.plot.bar(yerr=std_acc, color=color, capsize=5)
     # Add x and y labels
-    ax.set_xlabel('Run Number')
-    ax.set_ylabel('Average Estimated Accuracy')
+    ax.set_xlabel('Run Number', fontsize=axis_fontsize, fontweight=axis_fontweight)
+    ax.set_ylabel('Average Estimated Accuracy', fontsize=axis_fontsize, fontweight=axis_fontweight)
 
     # Add title
-    ax.set_title('Average Estimated Accuracy for Each Run')
+    ax.set_title('Average Estimated Accuracy for Each Run', fontsize=axis_fontsize, fontweight=axis_fontweight)
 
     plt.xticks(rotation=0)
 
@@ -40,7 +41,7 @@ def graph_results(filename, color='blue'):
     # Show the plot
     plt.show()
 
-def plot_for_all_subjects(filename, axis_fontsize=12, axis_fontweight='bold'):
+def plot_for_all_subjects(filename, ignore=None, axis_fontsize=12, axis_fontweight='bold'):
 
     script_dir = os.path.dirname(os.path.abspath(__file__))
     data_path = os.path.join(script_dir, filename)
@@ -60,10 +61,11 @@ def plot_for_all_subjects(filename, axis_fontsize=12, axis_fontweight='bold'):
 
     # loop through each subject and plot a line for each run
     for subject in df['Subject ID'].unique():
-        subject_df = df[df['Subject ID'] == subject]
-        # Merge all conditions together and get the average for all of a specific run across all conditions
-        subject_df = subject_df.groupby('Run Number')['Estimated Accuracy'].mean().reset_index()
-        ax.plot(subject_df['Run Number'], subject_df['Estimated Accuracy'], label=subject)
+        if not ignore or subject not in ignore:
+            subject_df = df[df['Subject ID'] == subject]
+            # Merge all conditions together and get the average for all of a specific run across all conditions
+            subject_df = subject_df.groupby('Run Number')['Estimated Accuracy'].mean().reset_index()
+            ax.plot(subject_df['Run Number'], subject_df['Estimated Accuracy'], label=subject)
     
     # Add a trend line for the overall data
     x = df.groupby(['Run Number'])['Estimated Accuracy'].mean().index
@@ -86,4 +88,4 @@ def plot_for_all_subjects(filename, axis_fontsize=12, axis_fontweight='bold'):
 if __name__ == "__main__":
     # graph_results(filename='allruns.csv', color='orange')
 
-    plot_for_all_subjects(filename='allruns.csv')
+    plot_for_all_subjects(filename='allruns.csv', ignore="T")
