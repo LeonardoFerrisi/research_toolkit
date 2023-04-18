@@ -1,0 +1,19 @@
+Subject ID,Prediction Accuracy,Order,Condition
+X,0.7330,1,Fast
+X,0.6830,2,Slow
+X,0.6330,3,Medium
+M,0.5330,1,Medium
+M,0.7170,2,Slow
+M,0.40,3,Fast
+R,0.7170,1,Medium
+R,0.8330,2,Slow
+R,0.6330,3,Fast
+T,0.85,1,Slow
+T,NA,2,Medium
+T,NA,3,Fast
+W,0.4830,1,Fast
+W,0.6750,2,Slow
+W,0.55,3,Medium
+B,0.5670,1,Fast
+B,0.75,2,Slow
+B,0.6830,3,Medium
