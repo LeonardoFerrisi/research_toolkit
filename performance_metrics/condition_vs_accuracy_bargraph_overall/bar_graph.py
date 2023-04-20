@@ -19,7 +19,7 @@ def generate_graph(datafilename=None, ascending=False, color='blue', axis_fontsi
     std_acc = std_acc[mean_acc.index]
 
     # Plot a bar graph of the mean prediction accuracy for each condition
-    ax = mean_acc.plot.bar(yerr=std_acc, color=color, capsize=5)
+    ax = mean_acc.plot.bar(yerr=std_acc, color=color, capsize=5, edgecolor= 'black')
     ax.set_xlabel('Condition', fontsize=axis_fontsize, fontweight=axis_fontweight)
     ax.set_ylabel('Mean Prediction Accuracy', fontsize=axis_fontsize, fontweight=axis_fontweight)
     ax.set_title('Mean Prediction Accuracy by Condition', fontsize=axis_fontsize, fontweight=axis_fontweight)
