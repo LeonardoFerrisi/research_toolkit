@@ -38,7 +38,7 @@ Condition,Subject ID,Run Number,Estimated Accuracy,Miss,Using Classifier,Order
 661,T,1,NA,NA,No,1
 661,T,2,0.80,4/20,Yes,1
 661,T,3,0.75,5/20,Yes,1
-661,T,4,0.100,0/20,Yes,1
+661,T,4,1.00,0/20,Yes,1
 662,T,1,NA,NA,No,2
 662,T,2,NA,NA,No,2
 662,T,3,NA,NA,No,2

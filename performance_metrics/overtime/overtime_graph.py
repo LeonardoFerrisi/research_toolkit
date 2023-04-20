@@ -4,7 +4,7 @@ import numpy as np
 from scipy.stats import linregress
 import os
 
-def generate_graph(ignore_subject=None, datafilename=None):
+def generate_graph_lines(ignore_subject=None, datafilename=None):
     script_dir = os.path.dirname(os.path.abspath(__file__))
 
     data_path = os.path.join(script_dir, datafilename)
@@ -68,6 +68,88 @@ def statistical_test(datapath):
     else:
         print("The ANOVA test is not statistically significant (p >= 0.05).")
 
+def generate_graph_boxandwhisker(ignore=None, datafilename=None, axis_fontsize=12, axis_fontweight='bold'):
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+
+    data_path = os.path.join(script_dir, datafilename)
+
+    # Read in the CSV data
+    df = pd.read_csv(data_path)
+
+    # Set up the plot
+    fig, ax = plt.subplots()
+
+    # Generate a subject data frame containing all the subjects if they are not in the parameter ignore
+    if type(ignore) == str: ignore = [ignore]
+    for subject_id_to_remove in ignore:
+        subject_df = df = df[df['Subject ID'] != subject_id_to_remove]
+
+    order_stats = []
+    for order in subject_df['Order'].unique():
+        order_df = subject_df[subject_df['Order'] == order]
+        # create a list of boxplot statistics for the run
+        stats = [order_df['Prediction Accuracy'].min(),
+                 order_df['Prediction Accuracy'].quantile(0.25),
+                 order_df['Prediction Accuracy'].median(),
+                 order_df['Prediction Accuracy'].quantile(0.75),
+                 order_df['Prediction Accuracy'].max()]
+        order_stats.append(stats)
+    
+    print(order_stats)
+
+    positions = [1, 2, 3]
+    ax.set_xticks(positions)
+    ax.set_xticklabels(['1', '2', '3'])
+
+    # Set the y lim to accomadate all values
+    ax.set_ylim(0.3, max([max(stats) for stats in order_stats]) + 0.05)
+
+
+    # plot the boxplots and add error bars
+    boxprops = dict(facecolor='orange', linewidth=2)
+    whiskerprops = dict(linestyle='--', color='red', linewidth=2)
+    capprops = dict(color='black', linewidth=2)
+    flierprops = dict(marker='o', markersize=8, markerfacecolor='red')
+    medianprops = dict(linestyle='-', color='black', linewidth=2)
+
+    ax.boxplot(order_stats, positions=positions, widths=0.5, patch_artist=True,
+            boxprops=boxprops, whiskerprops=whiskerprops, capprops=capprops,
+            flierprops=flierprops, medianprops=medianprops)
+    
+    # show without outliers
+    # ax.boxplot(order_stats, positions=positions, widths=0.5, patch_artist=True,
+    #        boxprops=boxprops, whiskerprops=whiskerprops, capprops=capprops,
+    #        flierprops=flierprops, medianprops=medianprops, showfliers=False)
+
+    #### 
+
+    # Add a legend and axis labels
+    ax.set_title("Prediction Accuracy vs # of Sets Tested", fontsize=axis_fontsize, fontweight=axis_fontweight)
+    ax.set_xlabel('# of Sets Tested', fontsize=axis_fontsize, fontweight=axis_fontweight)
+    ax.set_ylabel('Prediction Accuracy', fontsize=axis_fontsize, fontweight=axis_fontweight)
+
+    plt.show()
+
+def statistical_test(datapath):
+    import scipy.stats as stats
+
+    print("\n\nPerforming one-way ANOVA test...")
+
+    # Read in the CSV data
+    df = pd.read_csv(datapath)
+
+    # Perform one-way ANOVA test
+    fvalue, pvalue = stats.f_oneway(
+        df[df['Order'] == 1]['Prediction Accuracy'],
+        df[df['Order'] == 2]['Prediction Accuracy'],
+        df[df['Order'] == 3]['Prediction Accuracy']
+    )
+
+    if pvalue < 0.05:
+        print("The ANOVA test is statistically significant (p < 0.05).")
+    else:
+        print("The ANOVA test is not statistically significant (p >= 0.05).")
+
 def tukey_test(datapath):
     import pandas as pd
     import statsmodels.api as sm
@@ -93,4 +175,4 @@ def tukey_test(datapath):
 
 
 if __name__ == '__main__':
-    generate_graph(ignore_subject="T", datafilename='overtime.csv')
+    generate_graph_boxandwhisker(ignore="T", datafilename='overtime.csv')
