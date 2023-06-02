@@ -1,0 +1,19 @@
+Subject ID,Prediction Accuracy,Order,Condition,StimPerSecond
+X,0.733,1,Fast,10
+X,0.683,2,Slow,4
+X,0.633,3,Medium,6.66
+M,0.533,1,Medium,6.66
+M,0.717,2,Slow,4
+M,0.4,3,Fast,10
+R,0.717,1,Medium,6.66
+R,0.833,2,Slow,4
+R,0.633,3,Fast,10
+T,0.85,1,Slow,4
+T,NA,2,Medium,6.66
+T,NA,3,Fast,10
+W,0.483,1,Fast,10
+W,0.675,2,Slow,4
+W,0.55,3,Medium,6.66
+B,0.567,1,Fast,10
+B,0.75,2,Slow,4
+B,0.683,3,Medium,6.66

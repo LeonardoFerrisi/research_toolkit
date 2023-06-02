@@ -1,0 +1,90 @@
+﻿New Table( "Untitled 2",
+	Add Rows( 48 ),
+	Set Header Height( 42 ),
+	New Column( "Condition",
+		Character( 6 ),
+		"Nominal",
+		Set Values(
+			{"Slow", "Slow", "Slow", "Medium", "Medium", "Medium", "Fast", "Fast",
+			"Fast", "Slow", "Slow", "Slow", "Medium", "Medium", "Medium", "Fast",
+			"Fast", "Fast", "Slow", "Slow", "Slow", "Medium", "Medium", "Medium",
+			"Fast", "Fast", "Fast", "Slow", "Slow", "Slow", "Slow", "Slow", "Slow",
+			"Medium", "Medium", "Medium", "Fast", "Fast", "Fast", "Slow", "Slow",
+			"Slow", "Medium", "Medium", "Medium", "Fast", "Fast", "Fast"}
+		),
+		Set Display Width( 55 )
+	),
+	New Column( "Subject ID",
+		Character( 16 ),
+		"Nominal",
+		Set Values(
+			{"X", "X", "X", "X", "X", "X", "X", "X", "X", "M", "M", "M", "M", "M",
+			"M", "M", "M", "M", "R", "R", "R", "R", "R", "R", "R", "R", "R", "T",
+			"T", "T", "W", "W", "W", "W", "W", "W", "W", "W", "W", "B", "B", "B",
+			"B", "B", "B", "B", "B", "B"}
+		),
+		Set Display Width( 59 )
+	),
+	New Column( "Run Number",
+		Numeric,
+		"Nominal",
+		Format( "Best", 12 ),
+		Set Values(
+			[2, 3, 4, 2, 3, 4, 2, 3, 4, 2, 3, 4, 2, 3, 4, 2, 3, 4, 2, 3, 4, 2, 3, 4,
+			2, 3, 4, 2, 3, 4, 2, 3, 4, 2, 3, 4, 2, 3, 4, 2, 3, 4, 2, 3, 4, 2, 3, 4]
+		),
+		Set Display Width( 82 )
+	),
+	New Column( "Accuracy",
+		Numeric,
+		"Continuous",
+		Format( "Best", 12 ),
+		Set Values(
+			[0.6, 0.85, 0.6, 0.45, 0.55, 0.85, 0.75, 0.8, 0.65, 0.65, 0.7, 0.8, 0.3,
+			0.7, 0.6, 0.3, 0.55, 0.35, 0.7, 0.9, 0.9, 0.75, 0.8, 0.6, 0.55, 0.75,
+			0.6, 0.8, 0.75, 1, 0.65, 0.65, 0.7, 0.45, 0.55, 0.65, 0.3, 0.45, 0.7,
+			0.7, 0.8, 0.75, 0.8, 0.6, 0.65, 0.7, 0.6, 0.4]
+		),
+		Set Display Width( 50 )
+	),
+	New Column( "Miss",
+		Character( 16 ),
+		"Nominal",
+		Set Values(
+			{"8/20", "3/20", "8/20", "11/20", "9/20", "3/20", "5/20", "4/20", "7/20",
+			"7/20", "6/20", "4/20", "14/20", "6/20", "8/20", "14/20", "9/20",
+			"13/20", "6/20", "2/20", "2/20", "5/20", "4/20", "8/20", "9/20", "5/20",
+			"8/20", "4/20", "5/20", "0/20", "7/20", "7/20", "6/20", "11/20", "9/20",
+			"7/20", "14/20", "11/20", "6/20", "6/20", "4/20", "5/20", "4/20", "8/20",
+			"7/20", "6/20", "8/20", "12/20"}
+		),
+		Set Display Width( 38 )
+	),
+	New Column( "Order",
+		Numeric,
+		"Ordinal",
+		Format( "Best", 12 ),
+		Set Values(
+			[2, 2, 2, 3, 3, 3, 1, 1, 1, 2, 2, 2, 1, 1, 1, 3, 3, 3, 2, 2, 2, 1, 1, 1,
+			3, 3, 3, 1, 1, 1, 2, 2, 2, 3, 3, 3, 1, 1, 1, 2, 2, 2, 3, 3, 3, 1, 1, 1]
+		),
+		Set Display Width( 38 )
+	),
+	New Column( "StimPerSecond",
+		Numeric,
+		"Continuous",
+		Format( "Best", 12 ),
+		Set Values(
+			[., ., ., ., ., 6.66, 10, 10, 10, 4, 4, 4, 6.66, 6.66, 6.66, 10, 10, 10,
+			4, 4, 4, 6.66, 6.66, 6.66, 10, 10, 10, 4, 4, 4, 4, 4, 4, 6.66, 6.66,
+			6.66, 10, 10, 10, 4, 4, 4, 6.66, 6.66, 6.66, 10, 10, 10]
+		)
+	)
+) << Run Formulas;
+Oneway(
+	Y( :Accuracy ),
+	X( :Condition ),
+	All Pairs( 1 ),
+	Means( 1 ),
+	Mean Diamonds( 1 )
+);
